@@ -5,6 +5,8 @@
   margin: 48px auto;
   max-width: 560px;
   box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+  background: white;
+  border-radius: 4px;
 }
 
 .form__item {
