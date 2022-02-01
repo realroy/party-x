@@ -1,37 +1,58 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { DbTransaction } from "src/db";
-import { DbPort } from "src/ports";
 
 import {
   PartyParticipantRepositoryPort,
-  PartyRepositoryPort,
 } from "src/repositories";
-import { getAvailableParties } from "src/services";
-import { createParty } from "src/services/createParty";
+import { joinParty, leaveParty } from "src/services";
 
-export type PartiesControllerArgs = {
-  partyRepository: (db: any) => PartyRepositoryPort;
-  partyParticipantRepository: (db: any) => PartyParticipantRepositoryPort;
-  db: DbPort;
+export type PartyParticipantsControllerArgs = {
+  partyParticipantRepository: PartyParticipantRepositoryPort;
 };
 
-export const partyParticipantsController = (args: PartiesControllerArgs) => {
+export const partyParticipantsController = (args: PartyParticipantsControllerArgs) => {
   return {
     async create(req: NextApiRequest, res: NextApiResponse) {
-      const { partyRepository, partyParticipantRepository } = args;
+      let { id } = req.query;
+      if (Array.isArray(id)) {
+        id = id[0];
+      }
+
+      const { userId } = req.body;
+      const { partyParticipantRepository } = args;
 
       try {
-        args.db.transaction(async (txn: any) => {
-          const party = await createParty({
-            user: req.user,
-            partyRepository: partyRepository(txn),
-            partyParticipantRepository: partyParticipantRepository(txn),
-          });
-
-          return res.json({ data: party });
+        const data = await joinParty({
+          partyId: id,
+          userId,
+          partyParticipantRepository,
         });
+
+        return res.status(201).json({ data });
       } catch (error) {
         return res.status(403).json({ message: error });
+      }
+    },
+
+    async delete(req: NextApiRequest, res: NextApiResponse) {
+      let { id } = req.query;
+      if (Array.isArray(id)) {
+        id = id[0];
+      }
+
+      const { userId, partyParticipantId } = req.body;
+      const { partyParticipantRepository } = args;
+
+      try {
+        const data = await leaveParty({
+          partyId: id,
+          userId,
+          partyParticipantId,
+          partyParticipantRepository,
+        });
+
+        return res.json({ data });
+      } catch (error) {
+        return res.status(500).json({ message: error });
       }
     },
   };

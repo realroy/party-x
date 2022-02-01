@@ -1,24 +1,24 @@
 import { PartyParticipantRepositoryPort } from "src/repositories";
 
-export type JoinPartyArgs = {
+export type LeavePartyArgs = {
   partyId: string;
   userId: string;
+  partyParticipantId: string;
   partyParticipantRepository: PartyParticipantRepositoryPort;
 };
 
-export const joinParty = async (args: JoinPartyArgs) => {
+export const leaveParty = async (args: LeavePartyArgs) => {
   const { partyParticipantRepository } = args;
+  
   const partyParticipant =
     await partyParticipantRepository.findByPartyIdAndUserId(
       args.partyId,
       args.userId
     );
 
-  if (partyParticipant) {
-    throw new Error('already joined party')
+  if (!partyParticipant) {
+    return
   }
   
-  return partyParticipantRepository.create({ userId: args.userId, partyId: args.partyId });
+  return partyParticipantRepository.deleteById(args.partyParticipantId);
 };
-
-// '$argon2i$v=19$m=4096,t=3,p=1$ipm7KpPY//ApqjQT34LDFA$Mp4k/hwQ26f5bYCkZhgraWuBctb980fF1ip3vDShDGQ'
