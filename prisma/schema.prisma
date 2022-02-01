@@ -11,30 +11,33 @@ datasource db {
 }
 
 model Party {
-  id                  String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id                  String             @id @default(dbgenerated("gen_random_uuid()"))
   imgUrl              String?
   name                String             @unique
   createdAt           DateTime           @default(now())
-  updatedAt           DateTime           @default(now())
+  updatedAt           DateTime           @updatedAt
   deletedAt           DateTime?
   maxPartyParticipant Int
   partyParticipants   PartyParticipant[]
 }
 
 model PartyParticipant {
-  id        String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id        String    @id @default(dbgenerated("gen_random_uuid()"))
   party     Party     @relation(fields: [partyId], references: [id])
   partyId   String
   user      User      @relation(fields: [userId], references: [id])
   userId    String
   createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   deletedAt DateTime?
 }
 
 model User {
-  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id               String             @id @default(dbgenerated("gen_random_uuid()"))
   email            String             @unique
   password         String
   PartyParticipant PartyParticipant[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  deletedAt        DateTime?
 }
