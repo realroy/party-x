@@ -6,6 +6,7 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   height: 100vh;
   width: 100vw;
+  background: rgba(230, 230, 230, 0.1);
 }
 
 a {
@@ -17,7 +18,7 @@ a {
   box-sizing: border-box;
 }
 
-@media(min-width: 1024px) {
+@media (min-width: 1024px) {
   .container {
     max-width: 1024px;
     margin: 0 auto;
@@ -26,4 +27,12 @@ a {
 
 .mx-auto {
   margin: 0 auto;
+}
+
+.flex {
+  display: flex;
+}
+
+.justify-end {
+  justify-content: flex-end;
 }

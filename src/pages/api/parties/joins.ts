@@ -10,7 +10,7 @@ export default function partyJoinHandler(
   const controller = partiesController({
     partyParticipantRepository,
     partyRepository,
-    db: db,
+    db: db(),
     // @ts-ignore
     transaction: db.db.$transaction
   })

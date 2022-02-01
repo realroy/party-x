@@ -18,8 +18,9 @@
   padding: 8px;
 }
 
-.parties__create-btn {
+.create-btn {
   color: blue;
   font-weight: lighter;
   text-align: right;
+  padding: 16px;
 }

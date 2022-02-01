@@ -6,8 +6,11 @@ import { Party } from "src/models";
 import style from "./PartiesPage.module.css";
 import { PartyCard } from "./PartyCard/PartyCard";
 import { Navbar } from "../Navbar";
+import { Button } from "../Button";
 
-export type PartiesPageProps = {};
+export type PartiesPageProps = {
+  handleSignOut: () => void;
+};
 
 export type PartyWithPartyParticipantCount = Party & {
   _count?: {
@@ -41,14 +44,22 @@ export const PartiesPage: FC<PartiesPageProps> = (props) => {
       <Navbar
         center={<div>ปาร์ตี้ทั้งหมด</div>}
         right={
-          <NextLink href={"/parties/create"}>
-            <a>
-              <div className={style["parties__create-btn"]}>สร้างใหม่ +</div>
-            </a>
-          </NextLink>
+          <div className={'flex justify-end'}>
+            <Button variant="outlined" onClick={props.handleSignOut}>
+              ออกจากระบบ
+            </Button>
+          </div>
         }
       />
       <main className="container">
+        <div>
+          <NextLink href={"/parties/create"}>
+            <a>
+              <div className={style["create-btn"]}>สร้างใหม่ +</div>
+            </a>
+          </NextLink>
+        </div>
+
         <div className={style["parties__container"]}>
           {parties.map((party) => (
             <PartyCard

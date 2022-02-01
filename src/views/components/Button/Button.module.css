@@ -1,10 +1,26 @@
-.root {
+.btn {
   border: none;
   padding: 8px 32px;
-  color: white;
   border-radius: 4px;
   text-transform: uppercase;
   cursor: pointer;
   font-weight: bold;
+}
+
+.btn-contained {
+  composes: btn;
   background: rgb(20, 241, 149);
+  color: white;
+}
+
+.btn-contained:disabled {
+  cursor: disable;
+  background: lightgray;
+}
+
+.btn-outlined {
+  composes: btn;
+  background: none;
+  border: 1px solid rgb(20, 241, 149);
+  color: rgb(20, 241, 149);
 }

@@ -1,5 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { db, DbTransaction } from "src/db";
+import { getSession } from "next-auth/react"
 import { DbPort } from "src/ports";
 
 import {
@@ -18,6 +18,8 @@ export type PartiesControllerArgs = {
 export const partiesController = (args: PartiesControllerArgs) => {
   return {
     async getList(req: NextApiRequest, res: NextApiResponse) {
+      const session = await getSession({ req })
+      console.log({ session })
       const { partyRepository } = args;
       try {
         const parties = await getAvailableParties({

@@ -21,6 +21,7 @@ export const CreatePartyPage: FC<CreatePartyPageProps> = (props) => {
     handleSubmit,
     formState: { errors },
   } = useForm<CreatePartyFormData>();
+  
   const onSubmit = async (data: CreatePartyFormData) => {
     await fetch("/api/parties", {
       method: "POST",
