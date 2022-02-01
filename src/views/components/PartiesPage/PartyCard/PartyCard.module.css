@@ -1,0 +1,38 @@
+.card {
+  position: relative;
+  padding: 32px 16px;
+  border-radius: 8px;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+
+  overflow: hidden;
+}
+
+.card__img-placeholder {
+  width: 100%;
+  height: 320px;
+  background: lightgrey;
+}
+
+.card__name {
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card__join-btn {
+  border: none;
+  padding: 8px 32px;
+  color: white;
+  border-radius: 4px;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-weight: bold;
+  background: rgb(20, 241, 149);
+}

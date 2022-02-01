@@ -1,0 +1,24 @@
+.parties__navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  padding: 16px;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.parties__container {
+  margin-top: 48px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 8px;
+}
+
+.parties__create-btn {
+  color: blue;
+  font-weight: lighter;
+}
