@@ -5,6 +5,7 @@ import { Party } from "src/models";
 
 import style from "./PartiesPage.module.css";
 import { PartyCard } from "./PartyCard/PartyCard";
+import { Navbar } from "../Navbar";
 
 export type PartiesPageProps = {};
 
@@ -37,28 +38,30 @@ export const PartiesPage: FC<PartiesPageProps> = (props) => {
 
   return (
     <Fragment>
-      <nav className={style["parties__navbar"]}>
-        <div></div>
-        <div>ปาร์ตี้ทั้งหมด</div>
-
-        <NextLink href={"/parties/create"}>
-          <a>
-            <div className={style["parties__create-btn"]}>สร้างใหม่ +</div>
-          </a>
-        </NextLink>
-      </nav>
-      <main className={style["parties__container"]}>
-        {parties.map((party) => (
-          <PartyCard
-            key={party.id}
-            partyId={party.id}
-            partyName={party.name}
-            partyImgSrc={party.imgUrl ?? ""}
-            currentPartyParticipant={party._count?.partyParticipant ?? 0}
-            maxPartyParticipant={party.maxPartyParticipant}
-            onJoinClick={handleJoinClick}
-          />
-        ))}
+      <Navbar
+        center={<div>ปาร์ตี้ทั้งหมด</div>}
+        right={
+          <NextLink href={"/parties/create"}>
+            <a>
+              <div className={style["parties__create-btn"]}>สร้างใหม่ +</div>
+            </a>
+          </NextLink>
+        }
+      />
+      <main className="container">
+        <div className={style["parties__container"]}>
+          {parties.map((party) => (
+            <PartyCard
+              key={party.id}
+              partyId={party.id}
+              partyName={party.name}
+              partyImgSrc={party.imgUrl ?? ""}
+              currentPartyParticipant={party._count?.partyParticipant ?? 0}
+              maxPartyParticipant={party.maxPartyParticipant}
+              onJoinClick={handleJoinClick}
+            />
+          ))}
+        </div>
       </main>
     </Fragment>
   );

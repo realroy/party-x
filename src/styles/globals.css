@@ -14,3 +14,14 @@ a {
 * {
   box-sizing: border-box;
 }
+
+@media(min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+    margin: 0 auto;
+  }
+}
+
+.mx-auto {
+  margin: 0 auto;
+}

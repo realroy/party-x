@@ -1,0 +1,19 @@
+.root {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  text-align: center;
+  font-weight: bold;
+  padding: 16px;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
+  
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.container div {
+  flex: 1;
+}

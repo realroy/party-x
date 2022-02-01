@@ -1,4 +1,5 @@
 import { FC, MouseEventHandler } from "react";
+import { Button } from "../../Button";
 
 import styles from './PartyCard.module.css'
 
@@ -32,8 +33,7 @@ export const PartyCard: FC<PartyCardProps> = (props) => {
           <span>{props.currentPartyParticipant}</span>/
           <span>{props.maxPartyParticipant}</span>
         </div>
-
-        <button onClick={handleJoin} className={styles['card__join-btn']}>Join</button>
+        <Button onClick={handleJoin}>Join</Button>
       </div>
     </div>
   );
