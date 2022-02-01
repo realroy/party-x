@@ -21,11 +21,9 @@ export const partiesController = (args: PartiesControllerArgs) => {
       const { partyRepository } = args;
       try {
         const parties = await getAvailableParties({
-          user: {},
+          userId: '1',
           partyRepository: partyRepository(args.db),
         });
-
-        console.log({ parties })
 
         return res.json({ data: parties });
       } catch (error) {
@@ -36,24 +34,22 @@ export const partiesController = (args: PartiesControllerArgs) => {
     async create(req: NextApiRequest, res: NextApiResponse) {
       const { partyRepository, partyParticipantRepository } = args;
 
-      const { maxPartyParticipant, name } = req.body;
+      const { maxPartyParticipant, partyName } = req.body;
 
       try {
-        args.db.transaction(async (txn: any) => {
           const party = await createParty({
-            user: { id: 1 },
-            partyRepository: partyRepository(txn),
-            partyParticipantRepository: partyParticipantRepository(txn),
-
+            userId: '1',
+            partyRepository: partyRepository(args.db),
+            partyParticipantRepository: partyParticipantRepository(args.db),
             options: {
-              name,
-              maxPartyParticipant,
+              name: partyName,
+              maxPartyParticipant: +maxPartyParticipant,
             },
           });
 
           return res.json({ data: party });
-        });
       } catch (error) {
+        console.log(error)
         return res.status(403).json({ message: error });
       }
     },

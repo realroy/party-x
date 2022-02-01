@@ -5,7 +5,7 @@ import {
 } from "src/repositories";
 
 export type CreatePartyArgs = {
-  user: User;
+  userId: string;
   partyRepository: PartyRepositoryPort;
   partyParticipantRepository: PartyParticipantRepositoryPort;
   options: Partial<Party>;
@@ -17,11 +17,18 @@ export const createParty = async (args: CreatePartyArgs) => {
   const party = await args.partyRepository.create({
     name: name ?? `Party@${new Date().getTime()}`,
     maxPartyParticipant,
+  }).catch(err => {
+    console.log('create party error!', err)
+    throw err
   });
 
-  const partyParticipant = { userId: args.user.id, partyId: party.id };
+  const partyParticipant = { userId: args.userId, partyId: party.id };
 
-  await args.partyParticipantRepository.create(partyParticipant);
+  await args.partyParticipantRepository.create(partyParticipant).catch(err => {
+    console.log('create party party participant error!', err)
+    args.partyRepository.deleteById(party.id)
+    throw err
+  });
 
   return party;
 };

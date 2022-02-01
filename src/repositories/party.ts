@@ -14,6 +14,9 @@ export const partyRepository = (dbAdapter: DbPort) => {
           }
         }
       })
+    },
+    deleteById(id: string) {
+      return dbAdapter.db.party.delete({ where: { id } })
     }
   }
 }

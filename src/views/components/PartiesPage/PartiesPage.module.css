@@ -21,4 +21,5 @@
 .parties__create-btn {
   color: blue;
   font-weight: lighter;
+  text-align: right;
 }

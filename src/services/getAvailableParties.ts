@@ -5,9 +5,8 @@ import {
 } from "src/repositories";
 
 export type GetAvailablePartiesArgs = {
-  user: User;
+  userId: string;
   partyRepository: PartyRepositoryPort;
-  options: Partial<Party>;
 };
 
 export const getAvailableParties = async (args: GetAvailablePartiesArgs) => {
