@@ -5,7 +5,7 @@
   ./start.sh
 ```
 
-2. Enter http://localhost:3000 in your browser
+2. Enter http://0.0.0.0:3000 in your browser
 
 3. Register account
 
