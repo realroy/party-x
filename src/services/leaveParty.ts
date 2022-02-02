@@ -3,7 +3,6 @@ import { PartyParticipantRepositoryPort } from "src/repositories";
 export type LeavePartyArgs = {
   partyId: string;
   userId: string;
-  partyParticipantId: string;
   partyParticipantRepository: PartyParticipantRepositoryPort;
 };
 
@@ -20,5 +19,5 @@ export const leaveParty = async (args: LeavePartyArgs) => {
     return
   }
   
-  return partyParticipantRepository.deleteById(args.partyParticipantId);
+  return partyParticipantRepository.deleteById(partyParticipant.id);
 };

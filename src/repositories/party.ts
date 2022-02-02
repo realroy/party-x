@@ -9,9 +9,7 @@ export const partyRepository = (dbAdapter: DbPort) => {
     findManyAvailable() {
       return dbAdapter.db.party.findMany({
         include: {
-          _count: {
-            select: { partyParticipants: true }
-          }
+          partyParticipants: true,
         },
         orderBy: {
           updatedAt: 'desc'

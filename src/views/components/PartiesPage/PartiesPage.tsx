@@ -1,7 +1,7 @@
 import { FC, Fragment, useEffect, useState } from "react";
 import NextLink from "next/link";
 
-import { Party } from "src/models";
+import { Party, PartyParticipant } from "src/models";
 
 import style from "./PartiesPage.module.css";
 import { PartyCard } from "./PartyCard/PartyCard";
@@ -13,38 +13,54 @@ export type PartiesPageProps = {
 };
 
 export type PartyWithPartyParticipantCount = Party & {
-  _count?: {
-    partyParticipant?: number;
-  };
+  isJoined: boolean
+  partyParticipants: PartyParticipant[]
 };
 
 export const PartiesPage: FC<PartiesPageProps> = (props) => {
   const [parties, setParties] = useState<PartyWithPartyParticipantCount[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        setIsLoading(true);
-        const res = await fetch("/api/parties");
-        const { data } = await res.json();
-        setParties(data);
-      } catch (error) {
-      } finally {
-        setIsLoading(false);
-      }
-    }
 
+  async function fetchData() {
+    try {
+      setIsLoading(true);
+      const res = await fetch("/api/parties");
+      const { data } = await res.json();
+      setParties(data);
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  useEffect(() => {
     fetchData();
   }, []);
 
-  const handleJoinClick = (partyId: string) => {};
+  const handleJoinClick = async (partyId: string) => {
+    try {
+      await fetch(`/api/parties/${partyId}/joins`, { method: "POST" });
+      fetchData();
+    } catch (error) {
+      alert("Something went wrong");
+    }
+  };
+
+  const handleLeaveClick = async (partyId: string) => {
+    try {
+      await fetch(`/api/parties/${partyId}/leaves`, { method: "DELETE" });
+      fetchData();
+    } catch (error) {
+      alert("Something went wrong");
+    }
+  };
 
   return (
     <Fragment>
       <Navbar
         center={<div>ปาร์ตี้ทั้งหมด</div>}
         right={
-          <div className={'flex justify-end'}>
+          <div className={"flex justify-end"}>
             <Button variant="outlined" onClick={props.handleSignOut}>
               ออกจากระบบ
             </Button>
@@ -67,9 +83,11 @@ export const PartiesPage: FC<PartiesPageProps> = (props) => {
               partyId={party.id}
               partyName={party.name}
               partyImgSrc={party.imgUrl ?? ""}
-              currentPartyParticipant={party._count?.partyParticipant ?? 0}
+              currentPartyParticipant={party.partyParticipants.length ?? 0}
               maxPartyParticipant={party.maxPartyParticipant}
+              isJoined={party.isJoined}
               onJoinClick={handleJoinClick}
+              onLeaveClick={handleLeaveClick}
             />
           ))}
         </div>

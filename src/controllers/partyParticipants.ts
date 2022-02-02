@@ -1,29 +1,29 @@
 import type { NextApiRequest, NextApiResponse } from "next";
+import { getToken } from "next-auth/jwt";
 
-import {
-  PartyParticipantRepositoryPort,
-} from "src/repositories";
+import { PartyParticipantRepositoryPort } from "src/repositories";
 import { joinParty, leaveParty } from "src/services";
 
 export type PartyParticipantsControllerArgs = {
   partyParticipantRepository: PartyParticipantRepositoryPort;
 };
 
-export const partyParticipantsController = (args: PartyParticipantsControllerArgs) => {
+export const partyParticipantsController = (
+  args: PartyParticipantsControllerArgs
+) => {
   return {
     async create(req: NextApiRequest, res: NextApiResponse) {
       let { id } = req.query;
       if (Array.isArray(id)) {
         id = id[0];
       }
-
-      const { userId } = req.body;
+      const token = await getToken({ req, secret: process.env.SECRET ?? "" });
       const { partyParticipantRepository } = args;
 
       try {
         const data = await joinParty({
           partyId: id,
-          userId,
+          userId: token?.sub ?? "",
           partyParticipantRepository,
         });
 
@@ -39,14 +39,13 @@ export const partyParticipantsController = (args: PartyParticipantsControllerArg
         id = id[0];
       }
 
-      const { userId, partyParticipantId } = req.body;
+      const token = await getToken({ req, secret: process.env.SECRET ?? "" });
       const { partyParticipantRepository } = args;
 
       try {
         const data = await leaveParty({
           partyId: id,
-          userId,
-          partyParticipantId,
+          userId: token?.sub ?? '',
           partyParticipantRepository,
         });
 

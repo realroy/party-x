@@ -1,6 +1,4 @@
-import type { Party, User } from "src/models";
 import {
-  PartyParticipantRepositoryPort,
   PartyRepositoryPort,
 } from "src/repositories";
 
@@ -10,9 +8,18 @@ export type GetAvailablePartiesArgs = {
 };
 
 export const getAvailableParties = async (args: GetAvailablePartiesArgs) => {
-  const parties = await args.partyRepository.findManyAvailable()
+  const parties = await args.partyRepository.findManyAvailable();
 
-  const availableParties = parties.filter(party => party.maxPartyParticipant > party._count.partyParticipants)
+  const availableParties = parties
+    .filter(
+      (party) => party.maxPartyParticipant > party.partyParticipants.length
+    )
+    .map((party) => ({
+      ...party,
+      isJoined: !!party.partyParticipants.find(
+        (partyParticipant) => partyParticipant.userId === args.userId
+      ),
+    }));
 
-  return availableParties
+  return availableParties;
 };
