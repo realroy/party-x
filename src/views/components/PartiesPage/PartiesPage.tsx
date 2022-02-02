@@ -1,5 +1,6 @@
 import { FC, Fragment, useEffect, useState } from "react";
 import NextLink from "next/link";
+import { LogoutIcon, PlusIcon } from '@heroicons/react/outline'
 
 import { Party, PartyParticipant } from "src/models";
 
@@ -61,8 +62,8 @@ export const PartiesPage: FC<PartiesPageProps> = (props) => {
         center={<div>ปาร์ตี้ทั้งหมด</div>}
         right={
           <div className={"flex justify-end"}>
-            <Button variant="outlined" onClick={props.handleSignOut}>
-              ออกจากระบบ
+            <Button variant="outlined" onClick={props.handleSignOut} title="Logout">
+              <LogoutIcon stroke="rgb(20, 241, 149)" width={20} height={20} />
             </Button>
           </div>
         }
@@ -71,7 +72,9 @@ export const PartiesPage: FC<PartiesPageProps> = (props) => {
         <div>
           <NextLink href={"/parties/create"}>
             <a>
-              <div className={style["create-btn"]}>สร้างใหม่ +</div>
+              <div className={style["create-btn"]}>สร้างใหม่
+                <PlusIcon width={14} height={14} />
+              </div>
             </a>
           </NextLink>
         </div>
