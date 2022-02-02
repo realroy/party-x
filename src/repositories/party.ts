@@ -12,6 +12,9 @@ export const partyRepository = (dbAdapter: DbPort) => {
           _count: {
             select: { partyParticipants: true }
           }
+        },
+        orderBy: {
+          updatedAt: 'desc'
         }
       })
     },
