@@ -80,7 +80,7 @@ export const PartiesPage: FC<PartiesPageProps> = (props) => {
         </div>
 
         <div className={style["parties__container"]}>
-          {parties.map((party) => (
+          {parties?.map?.((party) => (
             <PartyCard
               key={party.id}
               partyId={party.id}
