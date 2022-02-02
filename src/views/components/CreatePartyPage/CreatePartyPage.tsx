@@ -7,6 +7,7 @@ import styles from "./CreatePartyPage.module.css";
 
 import { Navbar } from "../Navbar";
 import { Button } from "../Button";
+import { useRouter } from "next/router";
 
 export type CreatePartyPageProps = {};
 
@@ -21,18 +22,23 @@ export const CreatePartyPage: FC<CreatePartyPageProps> = (props) => {
     handleSubmit,
     formState: { errors },
   } = useForm<CreatePartyFormData>();
-  
-  const onSubmit = async (data: CreatePartyFormData) => {
-    await fetch("/api/parties", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-  };
+  const router = useRouter();
 
-  console.log({ errors });
+  const onSubmit = async (data: CreatePartyFormData) => {
+    try {
+      await fetch("/api/parties", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+    } catch (error) {
+      alert("Something went wrong");
+    } finally {
+      router.back();
+    }
+  };
 
   return (
     <Fragment>
