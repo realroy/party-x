@@ -35,7 +35,7 @@ export const SignUpPage: FC<SignUpPageProps> = (props) => {
       }),
     });
 
-    router.push('/api/auth/signin');
+    router.push('/api/auth/signin')
   };
 
   const disableSubmit = !isValid;

@@ -43,5 +43,8 @@ export default NextAuth({
       },
     }),
   ],
+  pages: {
+    signIn: '/users/signin'
+  }
 });
 
