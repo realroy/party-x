@@ -1,6 +1,6 @@
 .card {
   position: relative;
-  padding: 32px 16px;
+  padding: 8px;
   border-radius: 8px;
   box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px;
   background: white;
@@ -9,7 +9,7 @@
 
 .card__img-placeholder {
   width: 100%;
-  height: 320px;
+  aspect-ratio: 1 / 1;
   background: lightgrey;
 }
 
@@ -35,4 +35,10 @@
   cursor: pointer;
   font-weight: bold;
   background: rgb(20, 241, 149);
+}
+
+@media (min-width: 1024px) {
+ .card {
+   padding: 32px;
+ } 
 }
