@@ -1,5 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { getSession } from "next-auth/react"
+import { getToken } from "next-auth/jwt";
+import { getSession } from "next-auth/react";
 import { DbPort } from "src/ports";
 
 import {
@@ -10,49 +11,50 @@ import { getAvailableParties } from "src/services";
 import { createParty } from "src/services/createParty";
 
 export type PartiesControllerArgs = {
-  partyRepository: (db: any) => PartyRepositoryPort;
-  partyParticipantRepository: (db: any) => PartyParticipantRepositoryPort;
-  db: DbPort;
+  partyRepository: PartyRepositoryPort;
+  partyParticipantRepository: PartyParticipantRepositoryPort;
 };
 
 export const partiesController = (args: PartiesControllerArgs) => {
   return {
     async getList(req: NextApiRequest, res: NextApiResponse) {
-      const session = await getSession({ req })
-      console.log({ session })
+      const token = await getToken({ req, secret: process.env.SECRET ?? "" });
+
       const { partyRepository } = args;
       try {
         const parties = await getAvailableParties({
-          userId: '1',
-          partyRepository: partyRepository(args.db),
+          userId: token?.sub ?? "",
+          partyRepository,
         });
 
         return res.json({ data: parties });
       } catch (error) {
-        return res.status(403).json({ message: error });
+        return res.status(500).json({ message: error });
       }
     },
 
     async create(req: NextApiRequest, res: NextApiResponse) {
+      const token = await getToken({ req, secret: process.env.SECRET ?? "" });
+
       const { partyRepository, partyParticipantRepository } = args;
 
       const { maxPartyParticipant, partyName } = req.body;
 
       try {
-          const party = await createParty({
-            userId: '1',
-            partyRepository: partyRepository(args.db),
-            partyParticipantRepository: partyParticipantRepository(args.db),
-            options: {
-              name: partyName,
-              maxPartyParticipant: +maxPartyParticipant,
-            },
-          });
+        const party = await createParty({
+          userId: token?.sub ?? '',
+          partyRepository,
+          partyParticipantRepository,
+          options: {
+            name: partyName,
+            maxPartyParticipant: +maxPartyParticipant,
+          },
+        });
 
-          return res.json({ data: party });
+        return res.json({ data: party });
       } catch (error) {
-        console.log(error)
-        return res.status(403).json({ message: error });
+        console.log(error);
+        return res.status(500).json({ message: error });
       }
     },
   };

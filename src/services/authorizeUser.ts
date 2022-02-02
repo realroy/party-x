@@ -18,5 +18,5 @@ export const authorizeUser = async (args: AuthorizeUserArgs) => {
     return null;
   }
 
-  return user;
+  return user
 };
