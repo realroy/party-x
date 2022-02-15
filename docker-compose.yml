@@ -5,11 +5,11 @@ services:
     restart: always
     env_file:
       .env
-    ports:
-      - ${DB_PORT}:5432
   app:
     build: .
     restart: always
+    depends_on:
+      - db
     env_file:
       .env
     ports:
